@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pomodoro</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" type="image/png" href="images/timer.png">
+</head>
+
+<body>
+    <div class="heading">
+        <div class="pomodoro">Pomodoro</div>
+        <div class="status">Ready?</div>
+    </div>
+
+    <div class="timer" id="box">
+        <div class="countdown">25:00</div>
+    </div>
+
+    <div class="buttons">
+        <img src="images/play.png" alt="play" class="play">
+        <img src="images/pause.png" alt="pause" class="pause">
+        <img src="images/stop.png" alt="stop" class="stop">
+    </div>
+
+    <div class="settings">
+        <div class="session">
+            <div class="session-text">Session:</div>
+            <button class="less">&lt</button>
+            <div class="mins">25</div>
+            <button class="more">&gt</button>
+        </div>
+
+        <div class="break">
+            <div class="break-text">Break:</div>
+            <button class="less">&lt</button>
+            <div class="mins">5</div>
+            <button class="more">&gt</button>
+        </div>
+
+        <div class="default">Reset to default</div>
+    </div>
+
+</body>
+
+<script src="script.js"></script>
+</html>
