@@ -1,3 +1,4 @@
+/*
 const lessSession = document.querySelector(".less-session");
 const moreSession = document.querySelector(".more-session");
 const sessionMins = document.querySelector(".mins-session");
@@ -16,6 +17,7 @@ lessBreak.addEventListener("click", () => {
 });
 
 moreBreak.addEventListener("click", () => breakMins.textContent++);
+
 
 const play = document.querySelector(".play");
 const countdown = document.querySelector(".countdown");
@@ -59,4 +61,67 @@ startBreak = () => {
         clearInterval(setInterval(startBreak,1000));
         status.textContent = "Ready to focus?";
     }
+}
+*/
+
+// interface
+const remote = document.querySelectorAll(".remote");
+const timer = document.querySelector('.countdown');
+const buttons = document.querySelectorAll(".settings")
+const sessionSetting = document.querySelector(".mins-session");
+const breakSetting = document.querySelector(".mins-break");
+
+// default settings
+const defaultSession = 1500;
+const defaultBreak = 300;
+
+let sessionTime = defaultSession;
+let breakTime = defaultBreak;
+
+// on load
+timer.textContent = formatTime(defaultSession);
+
+//button presses
+remote.forEach((image) => {
+    image.addEventListener("click", e => {
+        let clickedImage = e.target;
+        console.log(clickedImage);
+    })
+})
+
+buttons.forEach((button) => {
+    button.addEventListener("click", e => {
+        let clickedButton = e.target;
+        console.log(clickedButton);
+        setTimes(clickedButton);
+    })
+})
+
+// functions
+function formatTime(time) {
+    let min = Math.floor(time / 60);
+    let sec = time % 60;
+    sec = zeroPad(sec);
+    time = `${min}:${sec}`;
+    return time;
+}
+
+function zeroPad(num) {
+    return String(num).padStart(2, '0');
+}
+
+function setTimes(button) {
+    if (button.textContent == "<" && button.id == "less-session") {
+        sessionSetting.textContent--;
+        let mins = sessionSetting.textContent * 60
+        timer.textContent = formatTime(mins);
+    } else if (button.textContent == ">") {
+        sessionSetting.textContent++;
+        let mins = sessionSetting.textContent * 60
+        timer.textContent = formatTime(mins);
+    } else if (button.class == "less-break") {
+        breakSetting.textContent--;
+    } else {
+        
+    } 
 }
