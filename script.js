@@ -70,6 +70,8 @@ const timer = document.querySelector('.countdown');
 const buttons = document.querySelectorAll(".settings")
 const sessionSetting = document.querySelector(".mins-session");
 const breakSetting = document.querySelector(".mins-break");
+const reset = document.querySelector(".default");
+const playButton = document.querySelector(".play");
 
 // default settings
 const defaultSession = 1500;
@@ -78,14 +80,21 @@ const defaultBreak = 300;
 let sessionTime = defaultSession;
 let breakTime = defaultBreak;
 
+let timePassed = 0;
+
 // on load
 timer.textContent = formatTime(defaultSession);
+
+// buttons pressed
+let playing = false;
+playButton.disabled = false;
 
 //button presses
 remote.forEach((image) => {
     image.addEventListener("click", e => {
         let clickedImage = e.target;
         console.log(clickedImage);
+        controls(clickedImage);
     })
 })
 
@@ -96,6 +105,8 @@ buttons.forEach((button) => {
         setTimes(clickedButton);
     })
 })
+
+reset.addEventListener("click", () => resetTimes());
 
 // functions
 function formatTime(time) {
@@ -111,17 +122,65 @@ function zeroPad(num) {
 }
 
 function setTimes(button) {
-    if (button.textContent == "<" && button.id == "less-session") {
-        sessionSetting.textContent--;
-        let mins = sessionSetting.textContent * 60
-        timer.textContent = formatTime(mins);
-    } else if (button.textContent == ">") {
+    if (button.classList.contains("less-session")) {
+        if (sessionSetting.textContent <= 1) {
+            sessionSetting.textContent = 1;
+        } else {
+            sessionSetting.textContent--;
+            timer.textContent = formatTime(sessionSetting.textContent * 60);
+        }
+    } else if (button.classList.contains("more-session")) {
         sessionSetting.textContent++;
-        let mins = sessionSetting.textContent * 60
-        timer.textContent = formatTime(mins);
-    } else if (button.class == "less-break") {
-        breakSetting.textContent--;
+        timer.textContent = formatTime(sessionSetting.textContent * 60)
+    } else if (button.classList.contains("less-break")) {
+        if (breakSetting.textContent <= 1) {
+            breakSetting.textContent == 1;
+        } else {
+            breakSetting.textContent--;
+        }
     } else {
-        
-    } 
+        breakSetting.textContent++;
+    }
+}
+
+resetTimes = () => {
+    timer.textContent = formatTime(defaultSession);
+    sessionSetting.textContent = defaultSession / 60;
+    breakSetting.textContent = defaultBreak / 60;
+};
+
+controls = (button) => {
+    if (button.classList.contains("play")) {
+        countdown();
+    } else if (button.classList.contains("pause")) {
+        pauseTimer();
+    } else {
+        stopTimer();
+    }
+}
+
+countdown = () => {
+    if (playButton.disabled == false) {
+        playButton.disabled = true
+        let playTime = sessionSetting.textContent;
+        playTime *= 60;
+        interval = setInterval(function() {
+            playTime -= 1;
+            timer.textContent = (formatTime(playTime))
+            if (timer.textContent == "24:55") {
+                timer.textContent = "TIME";
+                clearInterval(interval);
+            } 
+        }, 1000);
+    } else {
+        playButton.disabled = true;
+    }
+}
+
+pauseTimer = () => {
+
+}
+
+stopTimer = () => {
+
 }
